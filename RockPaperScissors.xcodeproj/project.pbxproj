@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		CB44FCB016A8C53B00325848 /* rps.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = rps.c; path = RockPaperScissors/rps.c; sourceTree = SOURCE_ROOT; };
-		CB44FCB916A8C56000325848 /* rps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rps.h; path = RockPaperScissors/rps.h; sourceTree = "<group>"; };
+		CB44FCB016A8C53B00325848 /* rps.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rps.c; sourceTree = SOURCE_ROOT; };
+		CB44FCB916A8C56000325848 /* rps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rps.h; sourceTree = "<group>"; };
 		CBF3E61F16B204BD0016ECD2 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 

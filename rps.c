@@ -38,11 +38,13 @@ int main(int argc, const char * argv[])
         if (userChoice == CHOICE_QUIT) {
             finalGameCount = winCount + loseCount + tieCount;
             
-            printf("\nYou played %s. You won %s, lost %s, and tied %s. Your win percentage is %.1lf%%.\n",
+            printf("\nWe played %s. You won %s, lost %s, and tied %s.\n",
                    pluralize(finalGameCount, "game", "games"),
                    pluralize(winCount, "game", "games"),
                    pluralize(loseCount, "game", "games"),
-                   pluralize(tieCount, "game", "games"),
+                   pluralize(tieCount, "game", "games"));
+            
+            printf("Your win percentage was %.1lf%%.\n",
                    findWinPercentage(winCount, loseCount, tieCount));
             
             return 0;
