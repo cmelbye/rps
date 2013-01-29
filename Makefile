@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -g -O2
+CFLAGS = -lm -g -O2
 OBJECTS = rps.o
 
 main.exe : $(OBJECTS)
