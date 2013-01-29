@@ -78,10 +78,8 @@ int main(int argc, const char * argv[])
 
 void displayUsage()
 {
-    printf("Welcome to the dog-eat-dog world of Rock Paper Scissors.\n");
-    printf("Type quit when you're ready to stop playing.\n");
-    printf("Press any key to start.\n");
-    getchar();
+    printf("Welcome to Rock Paper Scissors.\n");
+    printf("Type quit when you're ready to stop playing.\n\n");
 }
 
 int getUserChoice()
@@ -91,10 +89,9 @@ int getUserChoice()
     
     int inputIsGood = 0;
     int userChoice = 0;
-    
-    printf("Rock, paper, or scissors? ");
-    
+
     while (!inputIsGood) {
+        printf("Rock, paper, or scissors? ");
         fgets_wrapper(choice, 81, stdin);
         
         /*
@@ -119,7 +116,7 @@ int getUserChoice()
             userChoice = CHOICE_QUIT;
             inputIsGood = 1;
         } else {
-            printf("I don't understand your choice. Try again? ");
+            printf("I don't understand your choice.\n\n");
         }
     }
     
