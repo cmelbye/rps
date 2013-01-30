@@ -1,9 +1,17 @@
-CC = gcc
-CFLAGS = -lm -g -O2
-OBJECTS = rps.o
+MAIN=rps
+CFLAGS=-ansi -Wall -pedantic -lm
 
-main.exe : $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o RockPaperScissors
+all: debug run
 
-%.o : %.c
-	$(CC) $(CFLAGS) -c $<
+debug : ${MAIN}_debug
+run : ${MAIN}_run
+
+${MAIN}_debug : ${MAIN}.c checkit.h
+	gcc -o ${MAIN}_debug ${CFLAGS} ${MAIN}.c
+
+${MAIN}_run : ${MAIN}.c checkit.h
+	gcc -o ${MAIN}_run -DNCHECKIT ${CFLAGS} ${MAIN}.c
+
+clean :
+	\rm ${MAIN}_debug ${MAIN}_run
+
