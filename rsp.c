@@ -1,10 +1,9 @@
-//
-//  main.c
-//  RockPaperScissors
-//
-//  Created by Charlie Melbye on 1/17/13.
-//  Copyright (c) 2013 Charlie Melbye. All rights reserved.
-//
+/*
+ *  rsp.c
+ *  RockPaperScissors
+ *
+ *  Created by Charlie Melbye on 1/17/13.
+ */
 
 #include <stdio.h>
 #include <time.h>
@@ -12,7 +11,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "rps.h"
+#include "checkit.h"
+
+#include "rsp.h"
 
 int main(int argc, const char * argv[])
 {
@@ -29,9 +30,11 @@ int main(int argc, const char * argv[])
     
     srand((unsigned int) time(0));
     
+    test_cases();
+
     displayUsage();
     
-    // Main game loop
+    /* Main game loop */
     while (playing) {
         userChoice = getUserChoice();
         
@@ -44,7 +47,7 @@ int main(int argc, const char * argv[])
                    pluralize(loseCount, "game", "games"),
                    pluralize(tieCount, "game", "games"));
             
-            printf("Your win percentage was %.1lf%%.\n",
+            printf("Your win percentage was %.1f%%.\n",
                    findWinPercentage(winCount, loseCount, tieCount));
             
             return 0;
@@ -79,12 +82,13 @@ int main(int argc, const char * argv[])
 void displayUsage()
 {
     printf("Welcome to Rock Paper Scissors.\n");
-    printf("Type quit when you're ready to stop playing.\n\n");
+    printf("Type \"rock\", \"paper\", or \"scissors\" to choose your move.\n");
+    printf("Type \"quit\" when you're ready to stop playing.\n\n");
 }
 
 int getUserChoice()
 {
-    int i; // used in for statement
+    int i; /* used in for statement */
     char choice[81];
     
     int inputIsGood = 0;
@@ -125,19 +129,21 @@ int getUserChoice()
 
 int didUserWin(int userChoice, int computerChoice)
 {
-    if((userChoice > computerChoice) || (userChoice == CHOICE_ROCK && computerChoice == CHOICE_SCISSORS))
+    if(!(userChoice == CHOICE_SCISSORS && computerChoice == CHOICE_ROCK) &&
+        ((userChoice > computerChoice) ||
+            (userChoice == CHOICE_ROCK && computerChoice == CHOICE_SCISSORS)))
     {
-        // User wins.
+        /* User wins. */
         return RESULT_WIN;
     }
     else if(userChoice == computerChoice)
     {
-        // It's a tie.
+        /* It's a tie. */
         return RESULT_TIE;
     }
     else
     {
-        // The user loses (computer won).
+        /* The user loses (computer won). */
         return RESULT_LOSE;
     }
 }
@@ -155,7 +161,7 @@ int getComputerChoice()
             return CHOICE_SCISSORS;
             break;
         default:
-            printf("Error generating computer choice, exiting.\n");
+            printf("ERROR: Error generating computer choice, exiting.\n");
             exit(1);
             break;
     }
@@ -191,15 +197,22 @@ void displayRoundResult(int resultCode)
             printf("Well, we tied. Let's play again!\n\n");
             break;
         default:
-            printf("Unable to parse result code, exiting.\n");
-            exit(1);
             break;
     }
 }
 
 double findWinPercentage(int winCount, int loseCount, int tieCount)
 {
-    return ((double)winCount / (winCount + loseCount + tieCount)) * 100;
+    int totalRoundCount = 0;
+
+    totalRoundCount = winCount + loseCount + tieCount;
+
+    if (totalRoundCount == 0)
+    {
+        return 0;
+    }
+
+    return ((double)winCount / totalRoundCount) * 100;
 }
 
 const char * pluralize(int count, const char *singular, const char *plural)
@@ -208,14 +221,14 @@ const char * pluralize(int count, const char *singular, const char *plural)
     char *buffer;
     
     if (count > 0) {
-        numberOfDigits = floor(log10(abs(count))) + 1; // From StackOverflow: http://bit.ly/aZuDzx
+        numberOfDigits = floor(log10(abs(count))) + 1; /* From StackOverflow: http://bit.ly/aZuDzx */
     }
     
     if (count == 1) {
-        buffer = malloc(numberOfDigits + 1 + strlen(singular) + 1); // The number + a space + the singular + \0
+        buffer = malloc(numberOfDigits + 1 + strlen(singular) + 1); /* The number + a space + the singular + \0 */
         sprintf(buffer, "%d %s", count, singular);
     } else {
-        buffer = malloc(numberOfDigits + 1 + strlen(plural) + 1); // The number + a space + the plural + \0
+        buffer = malloc(numberOfDigits + 1 + strlen(plural) + 1); /* The number + a space + the plural + \0 */
         sprintf(buffer, "%d %s", count, plural);
     }
     
@@ -246,5 +259,22 @@ char *fgets_wrapper(char *buffer, int buflen, FILE *fp)
 
 void test_cases(void)
 {
-    
+    /* Test didUserWin() */
+    checkit_int(didUserWin(CHOICE_ROCK, CHOICE_ROCK), RESULT_TIE);
+    checkit_int(didUserWin(CHOICE_ROCK, CHOICE_PAPER), RESULT_LOSE);
+    checkit_int(didUserWin(CHOICE_ROCK, CHOICE_SCISSORS), RESULT_WIN);
+
+    checkit_int(didUserWin(CHOICE_PAPER, CHOICE_ROCK), RESULT_WIN);
+    checkit_int(didUserWin(CHOICE_PAPER, CHOICE_PAPER), RESULT_TIE);
+    checkit_int(didUserWin(CHOICE_PAPER, CHOICE_SCISSORS), RESULT_LOSE);
+
+    checkit_int(didUserWin(CHOICE_SCISSORS, CHOICE_ROCK), RESULT_LOSE);
+    checkit_int(didUserWin(CHOICE_SCISSORS, CHOICE_PAPER), RESULT_WIN);
+    checkit_int(didUserWin(CHOICE_SCISSORS, CHOICE_SCISSORS), RESULT_TIE);
+
+    /* Test findWinPercentage() */
+    checkit_double(findWinPercentage(2, 4, 1), 28.571428);
+    checkit_double(findWinPercentage(0, 0, 0), 0.0);
+    checkit_double(findWinPercentage(6, 0, 0), 100.0);
+    checkit_double(findWinPercentage(2, 2, 2), 33.333333);
 }

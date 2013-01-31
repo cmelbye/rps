@@ -1,13 +1,9 @@
-//
-//  rps.h
-//  RockPaperScissors
-//
-//  Created by Charlie Melbye on 1/17/13.
-//  Copyright (c) 2013 Charlie Melbye. All rights reserved.
-//
-
-#ifndef RockPaperScissors_rps_h
-#define RockPaperScissors_rps_h
+/*
+ *  rsp.h
+ *  RockPaperScissors
+ *
+ *  Created by Charlie Melbye on 1/17/13.
+ */
 
 #define CHOICE_ROCK     100
 #define CHOICE_PAPER    101
@@ -28,5 +24,3 @@ double findWinPercentage(int winCount, int loseCount, int tieCount);
 const char * pluralize(int count, const char *plural, const char *singular);
 char *fgets_wrapper(char *buffer, int buflen, FILE *fp);
 void test_cases(void);
-
-#endif
